@@ -1,9 +1,5 @@
 'use strict';
 
-// first run npm init from the terminal to create "package.json"
-// `npm install dotenv` installs the dotenv module into the node module folder
-// loads our environment from a secret .env file
-
 // APP dependencies
 require('dotenv').config();
 
@@ -27,13 +23,11 @@ $.ajax({
 
 // app.get('/location') is a route
 app.get('/location', (request, response) => {
-  // response.send('hello world you are on the location path');
-  // console.log(request.query.data);
   try {
     const locationData = searchToLatLng(request.query.data);
     response.send(locationData);
   } catch(e){
-    response.status(500).send('Status 500: So sorry i broke')
+    response.status(500).send('Status 500: Sorry went wrong')
   }
 });
 
@@ -42,16 +36,21 @@ app.get('/weather', (request, response) => {
     const weatherData = searchWeather(request.query.data);
     response.send(weatherData);
   } catch(e){
-    response.status(500).send('Status 500: So sorry I broke')
+    response.status(500).send('Status 500: Something went wrong')
+    // errorMsg(500, 'Sorry something went wrong');
   }
 });
 
+// function errorMsg (status, msg){
+//   console.log(errorMsg);
+//   return (status(status).send(msg));
+// }
 
 app.use('*', (request, response) => {
   response.send('you got to the wrong place');
 })
 
-
+//Latitude & Longitude function/Location Constructor
 function searchToLatLng (locationName){
   const geoData = require('./data/geo.json');
 
@@ -67,8 +66,7 @@ function searchToLatLng (locationName){
   return location;
 }
 
-
-
+//Search Weather function / Weather Constructor
 function searchWeather(locationWeather){
   const darkSkyData = require('./data/darksky.json');
 
@@ -76,18 +74,16 @@ function searchWeather(locationWeather){
     this.search_query = search_query;
     this.forecast = forecast;
     this.time = time;
-
-    // days.push(this);
   }
+
   let days = [];
 
   for (let i=0; i<8; i++) {
     let time = new Date (darkSkyData.daily.data[i].time).toDateString();
     let weather = new Weather (locationWeather, darkSkyData.daily.data[i].summary, time);
-    //console.log(weather);
+
     days.push(weather);
   }
-
   return days;
 }
 
