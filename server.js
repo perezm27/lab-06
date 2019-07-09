@@ -7,7 +7,7 @@ const express = require('express');
 const cors = require('cors');
 
 // Global vars
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3009;
 
 // Make my server
 const app = express();
@@ -46,6 +46,7 @@ app.get('/weather', (request, response) => {
 //   return (status(status).send(msg));
 // }
 
+//Default error handling
 app.use('*', (request, response) => {
   response.send('you got to the wrong place');
 })
@@ -61,6 +62,7 @@ function searchToLatLng (locationName){
     this.longitude = longitude;
   }
 
+  //Creates new Instance of Location & passes location data to location
   var location = new Location (locationName, geoData.results[0].formatted_address, geoData.results[0].geometry.location.lat, geoData.results[0].geometry.location.lng);
 
   return location;
@@ -76,10 +78,11 @@ function searchWeather(locationWeather){
     this.time = time;
   }
 
+  //Iterates through weather properties and stores the weather and time to days array
   let days = [];
 
   for (let i=0; i<8; i++) {
-    let time = new Date (darkSkyData.daily.data[i].time).toDateString();
+    let time = new Date (darkSkyData.daily.data[i].time * 1000).toDateString();
     let weather = new Weather (locationWeather, darkSkyData.daily.data[i].summary, time);
 
     days.push(weather);
