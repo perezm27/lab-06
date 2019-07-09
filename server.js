@@ -28,14 +28,24 @@ $.ajax({
 // app.get('/location') is a route
 app.get('/location', (request, response) => {
   // response.send('hello world you are on the location path');
-  console.log(request.query.data);
+  // console.log(request.query.data);
   try {
     const locationData = searchToLatLng(request.query.data);
     response.send(locationData);
   } catch(e){
     response.status(500).send('Status 500: So sorry i broke')
   }
-})
+});
+
+app.get('/weather', (request, response) => {
+  try {
+    const weatherData = searchWeather(request.query.data);
+    response.send(weatherData);
+  } catch(e){
+    response.status(500).send('Status 500: So sorry I broke')
+  }
+});
+
 
 app.use('*', (request, response) => {
   response.send('you got to the wrong place');
@@ -54,16 +64,25 @@ function searchToLatLng (locationName){
 
   var location = new Location (locationName, geoData.results[0].formatted_address, geoData.results[0].geometry.location.lat, geoData.results[0].geometry.location.lng);
 
-  // const location = {
-  //   search_query: locationName,
-  //   formatted_query: geoData.results[0].formatted_address,
-  //   latitude: geoData.results[0].geometry.location.lat,
-  //   longitude: geoData.results[0].geometry.location.lng,
-  // }
-
   return location;
 }
 
+let days = [];
+
+function searchWeather(locationWeather){
+  const darkSkyData = require('./data/darksky.json');
+
+  function Weather(search_query, forecast, date){
+    this.search_query = search_query;
+    this.forcast = forecast;
+    this.date = date;
+
+    days.push(this);
+  }
+  var weather = new Weather (locationWeather, darkSkyData.daily.data[0].summary, darkSkyData.daily.data[0].time);
+  console.log(weather);
+  return weather;
+}
 
 // Start the server
 app.listen(PORT, () => {
