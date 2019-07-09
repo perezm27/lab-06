@@ -44,15 +44,25 @@ app.use('*', (request, response) => {
 
 function searchToLatLng (locationName){
   const geoData = require('./data/geo.json');
-  const location = {
-    search_query: locationName,
-    formatted_query: geoData.results[0].formatted_address,
-    latitude: geoData.results[0].geometry.location.lat,
-    longitude: geoData.results[0].geometry.location.lng,
+
+  function Location (search_query, formatted_query, latitude, longitude) {
+    this.search_query = search_query;
+    this.formatted_query = formatted_query;
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
+
+  var location = new Location (locationName, geoData.results[0].formatted_address, geoData.results[0].geometry.location.lat, geoData.results[0].geometry.location.lng);
+
+  // const location = {
+  //   search_query: locationName,
+  //   formatted_query: geoData.results[0].formatted_address,
+  //   latitude: geoData.results[0].geometry.location.lat,
+  //   longitude: geoData.results[0].geometry.location.lng,
+  // }
+
   return location;
 }
-
 
 
 // Start the server
