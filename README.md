@@ -30,6 +30,53 @@ Cors
 Trello
 
 ## Change Log
+**Feature 1**
+
+Number and name of feature: Repository set up
+
+Estimate of time needed to complete: 1hr
+
+Start time: 9:00am
+
+Finish time: 9:45am
+
+Actual time needed to complete: 45 mins
+
+**Feature 2**
+
+Number and name of feature: Locations Constructor
+
+Estimate of time needed to complete: 1hr
+
+Start time: 10:00am
+
+Finish time: 11:00am
+
+Actual time needed to complete: 1hr
+
+**Feature 3**
+
+Number and name of feature: Weather Constructor
+
+Estimate of time needed to complete: 1hr
+
+Start time: 11:00am
+
+Finish time: 12:00pm
+
+Actual time needed to complete: 1hr
+
+**Feature 4**
+
+Number and name of feature: Error Handling
+
+Estimate of time needed to complete: 1hr
+
+Start time: 12:00pm
+
+Finish time: 1:00pm
+
+Actual time needed to complete: 1hr
 
 ## Credits and Collaborations
 Jane Hur
