@@ -67,21 +67,28 @@ function searchToLatLng (locationName){
   return location;
 }
 
-let days = [];
+
 
 function searchWeather(locationWeather){
   const darkSkyData = require('./data/darksky.json');
 
-  function Weather(search_query, forecast, date){
+  function Weather(search_query, forecast, time){
     this.search_query = search_query;
-    this.forcast = forecast;
-    this.date = date;
+    this.forecast = forecast;
+    this.time = time;
 
-    days.push(this);
+    // days.push(this);
   }
-  var weather = new Weather (locationWeather, darkSkyData.daily.data[0].summary, darkSkyData.daily.data[0].time);
-  console.log(weather);
-  return weather;
+  let days = [];
+
+  for (let i=0; i<8; i++) {
+    let time = new Date (darkSkyData.daily.data[i].time).toDateString();
+    let weather = new Weather (locationWeather, darkSkyData.daily.data[i].summary, time);
+    //console.log(weather);
+    days.push(weather);
+  }
+
+  return days;
 }
 
 // Start the server
